@@ -15,7 +15,7 @@ export default class CourseDetail extends Component {
     this.props.context.data.getCourseById(this.props.match.params.id)
       .then( courseDetail => {
         if(courseDetail !== null) {
-          this.setState({course: courseDetail});
+          this.setState({course: courseDetail[0]});
         } else {
           this.props.history.push('/notfound');
         }
@@ -31,9 +31,6 @@ export default class CourseDetail extends Component {
     const { authenticatedUser } = this.props.context;
     const { course } = this.state;
 
-    if (course) {
-      console.log(course);
-    }
     return(
       <div>
         <div class="actions--bar">
@@ -57,7 +54,16 @@ export default class CourseDetail extends Component {
             <div class="course--header">
               <h4 class="course--label">Course</h4>
               <h3 class="course--title">{course.title}</h3>
-              <p>By {course.userDetails.firstName} {course.userDetails.lastName}</p>
+              {
+                course.userDetails ?
+                  <React.Fragment>
+                    <p>
+                      By {course.userDetails.firstName} {course.userDetails.lastName}
+                    </p>
+                  </React.Fragment>
+                  :
+                  null
+              }
             </div>
             <div class="course--description">
               <ReactMarkdown source={course.description}/>
