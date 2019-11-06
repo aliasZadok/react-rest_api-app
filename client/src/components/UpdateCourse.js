@@ -15,36 +15,39 @@ export default class UpdateCourse extends Component {
     }
   }
 
+// handles getCourseById()
   getCourseByIdHandler = () => {
     this.props.context.data.getCourseById(this.props.match.params.id)
       .then( res => {
-        if (res == null) {
-          this.props.history.push('/notFound')
-        } else {
-          if (this.props.context.authenticatedUser.id === res.userId) {
+        if (res !== null) {
+          // making sure if the current user's id matches the course's userId
+          if (this.props.context.authenticatedUser.id === res.course[0].userId) {
             const {
               title,
               description,
               estimatedTime,
-              materialsNeeded,
-              errors
-            } = res;
+              materialsNeeded
+            } = res.course[0];
 
             this.setState({
               title,
               description,
               estimatedTime,
-              materialsNeeded,
-              errors
+              materialsNeeded
             });
+
           } else {
-            this.props.history.push('/forbidden')
+           // in case userId doesn't match authenticatedUser.id
+           this.props.history.push('/forbidden')
           }
+        } else {
+          this.props.history.push('/notfound')
         }
       })
       .catch(err => this.props.history.push('/error'));
   }
 
+// initiating subscription of getCourseByIdHandler() to the Component
   componentDidMount(){
     this.getCourseByIdHandler();
   }
