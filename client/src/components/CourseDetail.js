@@ -11,11 +11,12 @@ export default class CourseDetail extends Component {
     }
   }
 
+// Handles getCourseById()
   getCourseByIdHandler = () => {
     this.props.context.data.getCourseById(this.props.match.params.id)
       .then( courseDetail => {
         if(courseDetail !== null) {
-          this.setState({course: courseDetail[0]});
+          this.setState({course: courseDetail.course[0]});
         } else {
           this.props.history.push('/notfound');
         }
@@ -23,6 +24,7 @@ export default class CourseDetail extends Component {
       .catch(err => this.props.history.push('/error'));
   }
 
+// initiating subscription of getCourseByIdHandler() to the Component
   componentDidMount(){
     this.getCourseByIdHandler();
   }
@@ -40,7 +42,7 @@ export default class CourseDetail extends Component {
                 authenticatedUser && authenticatedUser.id === course.userId ?
                 <React.Fragment>
                   <span>
-                    <Link class="button" to={`courses/${course.id}/update`}>Update Course</Link>
+                    <Link class="button" to={`/courses/${course.id}/update`}>Update Course</Link>
                     <Link class="button" onClick={this.deleteCourse} to="#">Delete Course</Link>
                   </span>
                 </React.Fragment> : <React.Fragment> </React.Fragment>
@@ -90,9 +92,10 @@ export default class CourseDetail extends Component {
     );
   }
 
+// Handles deleteCourse()
   deleteCourse = () => {
-    const { username, password } = this.props.context;
-    this.props.context.data.deleteCourse(this.props.match.params.id, username, password)
+    const { emailAddress, password } = this.props.context;
+    this.props.context.data.deleteCourse(this.props.match.params.id, emailAddress, password)
       .then(() => this.props.history.push('/'));
   }
 }
