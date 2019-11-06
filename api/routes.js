@@ -81,25 +81,44 @@ router.get('/users', authenticateUser, (req, res) => {
 router.post('/users', asyncHandler(
   async (req, res, next) => {
     const userDetail = req.body;
+    const errors = [];
 
-    if (!Object.keys(userDetail).length) {
-      await User.create( userDetail );
-    } else {
-      userDetail.password = bcryptjs.hashSync(userDetail.password);
+    if(!userDetail.firstName){
+  		errors.push('Please provide a value for "First Name"');
+  	}
+  	if(!userDetail.lastName){
+  		errors.push('Please provide a value for "Last Name"');
+  	}
+    if(!userDetail.emailAddress){
+  		errors.push('Please provide a value for "Email"');
+  	}
+    if(!userDetail.password){
+  		errors.push('Please provide a value for "Password"');
+  	}
 
-      const email = await User.findOne({
-        where: {
-          emailAddress: userDetail.emailAddress
-        }
-      });
-
-      if (!email) {
+    if (errors.length == 0) {
+      if (!Object.keys(userDetail).length) {
         await User.create( userDetail );
-        res.status(201).location('/').end();
       } else {
-        res.status(400).json({ error: 'This Email Id already exists!' });
+        userDetail.password = bcryptjs.hashSync(userDetail.password);
+
+        const email = await User.findOne({
+          where: {
+            emailAddress: userDetail.emailAddress
+          }
+        });
+
+        if (!email) {
+          await User.create( userDetail );
+          res.status(201).location('/').end();
+        } else {
+          res.status(400).json({ error: 'This Email Id already exists!' });
+        }
       }
+    } else {
+      res.status(400).json({errors})
     }
+
   }
 ));
 
@@ -135,14 +154,14 @@ router.post('/courses', authenticateUser, asyncHandler(
     const courseDetail = req.body;
     courseDetail.userId = req.currentUser.id;
 	const errors = [];
-	
+
 	if(!courseDetail.title){
 		errors.push('Please provide a value for "Title"');
 	}
 	if(!courseDetail.description){
 		errors.push('Please provide a value for "Description"');
 	}
-	
+
 	if(errors.length == 0){
 		await Course.create( courseDetail );
 		res.status(201).location('/courses').end();
@@ -150,7 +169,7 @@ router.post('/courses', authenticateUser, asyncHandler(
 		res.status(400).json({errors})
 	}
 
-    
+
   }
 ));
 
