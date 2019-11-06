@@ -33,6 +33,7 @@ export default (props) => {
   );
 }
 
+// displays form validation errors
 function ErrorsDisplay({ errors }) {
   let errorsDisplay = null;
 
