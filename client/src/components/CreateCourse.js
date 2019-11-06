@@ -32,7 +32,7 @@ export default class CreateCourse extends Component {
           cancel={this.cancel}
           errors={errors}
           submit={this.submit}
-          submitButtonText="Update Course"
+          submitButtonText="Create Course"
           elements={() => (
             <React.Fragment>
               <div class="grid-66">
@@ -102,6 +102,7 @@ export default class CreateCourse extends Component {
     );
   }
 
+// handles changes in an input's value
   change = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -113,6 +114,7 @@ export default class CreateCourse extends Component {
     });
   }
 
+// handles course creation and validation
   submit = () => {
     const { context } = this.props;
 
@@ -131,12 +133,13 @@ export default class CreateCourse extends Component {
       materialsNeeded
     };
 
-    const {emailAddress, password} = this.props.context
+    const {emailAddress, password} = context;
 
+// course creation is initiated
     context.data.createCourse(course, emailAddress, password)
       .then( errors => {
         if (errors.length) {
-          this.setState({ errors });
+          this.setState({ errors }); // validation errors
         } else {
           this.props.history.push('/')
         }
