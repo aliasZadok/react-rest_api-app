@@ -11,7 +11,7 @@ export default class CourseDetail extends Component {
     }
   }
 
-// Handles getCourseById()
+// handles getCourseById()
   getCourseByIdHandler = () => {
     this.props.context.data.getCourseById(this.props.match.params.id)
       .then( courseDetail => {
