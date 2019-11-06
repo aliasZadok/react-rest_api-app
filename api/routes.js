@@ -134,9 +134,23 @@ router.post('/courses', authenticateUser, asyncHandler(
   async (req, res, next) => {
     const courseDetail = req.body;
     courseDetail.userId = req.currentUser.id;
+	const errors = [];
+	
+	if(!courseDetail.title){
+		errors.push('Please provide a value for "Title"');
+	}
+	if(!courseDetail.description){
+		errors.push('Please provide a value for "Description"');
+	}
+	
+	if(errors.length == 0){
+		await Course.create( courseDetail );
+		res.status(201).location('/courses').end();
+	} else {
+		res.status(400).json({errors})
+	}
 
-    await Course.create( courseDetail );
-    res.status(201).location('/courses').end();
+    
   }
 ));
 
