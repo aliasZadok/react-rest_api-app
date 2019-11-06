@@ -50,6 +50,8 @@ export class Provider extends Component {
         };
       });
       Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
+      Cookies.set('emailAddress', JSON.stringify(emailAddress), { expires: 1 });
+      Cookies.set('password', JSON.stringify(password), { expires: 1 });
     }
     return user;
   }
