@@ -37,7 +37,7 @@ export default () => (
         <Route exact path="/" component={CoursesWithContext} />
         <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
         <PrivateRoute path="/courses/:id/update" component={UpdateCourseWithCOntext} />
-        <Route path="/courses/:id" component={CourseDetailWithContext} />
+        <Route exact path="/courses/:id" component={CourseDetailWithContext} />
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />
