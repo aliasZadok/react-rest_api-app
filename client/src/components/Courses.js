@@ -10,12 +10,14 @@ export default class Courses extends Component {
     }
   }
 
+// handles getCourse()
   getCoursesHandler = () => {
     this.props.context.data.getCourse()
       .then(course => this.setState({ courses: course.courses }))
       .catch(err => this.props.history.push('/error'));
   }
 
+// initiating subscription of getCoursesHandler() to the Component
   componentDidMount(){
     this.getCoursesHandler();
   }
