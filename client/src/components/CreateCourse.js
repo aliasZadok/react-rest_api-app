@@ -150,6 +150,7 @@ export default class CreateCourse extends Component {
 
   }
 
+// sends user back to the root route
   cancel = () => {
     this.props.history.push('/');
   }
