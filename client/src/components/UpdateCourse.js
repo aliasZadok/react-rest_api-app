@@ -23,6 +23,7 @@ export default class UpdateCourse extends Component {
           // making sure if the current user's id matches the course's userId
           if (this.props.context.authenticatedUser.id === res.course[0].userId) {
             const {
+              userId,
               title,
               description,
               estimatedTime,
@@ -30,6 +31,7 @@ export default class UpdateCourse extends Component {
             } = res.course[0];
 
             this.setState({
+              userId,
               title,
               description,
               estimatedTime,
