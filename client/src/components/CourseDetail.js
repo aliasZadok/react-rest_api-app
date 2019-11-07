@@ -15,13 +15,12 @@ export default class CourseDetail extends Component {
   getCourseByIdHandler = () => {
     this.props.context.data.getCourseById(this.props.match.params.id)
       .then( courseDetail => {
-        if(courseDetail !== null) {
-          this.setState({course: courseDetail.course[0]});
-        } else {
-          this.props.history.push('/notfound');
-        }
+        this.setState({course: courseDetail.course[0]});
       })
-      .catch(err => this.props.history.push('/error'));
+      .catch(err => {
+        const path = (err.message === '404 not found') ? '/notfound' : '/error';
+        this.props.history.push(path)
+      });
   }
 
 // initiating subscription of getCourseByIdHandler() to the Component
