@@ -195,7 +195,12 @@ router.get('/courses/:id', asyncHandler(
         exclude: ['createdAt','updatedAt']
       }
     });
-    res.status(200).json({ course: course });
+    if (course.length !== 0) {
+      res.status(200).json({ course: course });
+    } else {
+      res.status(404).end();
+    }
+
   }
 ));
 
